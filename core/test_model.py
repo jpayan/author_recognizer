@@ -30,7 +30,6 @@ class ModelTester(object):
                 # l1 = self.calculate_lambda(previous_word, probs)
                 # l2 = self.calculate_lambda(current_word, probs)
 
-                # Happy path
                 l1 = 0.95
                 l2 = 0.95
 
