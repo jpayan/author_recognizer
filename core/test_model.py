@@ -38,4 +38,4 @@ class ModelTester(object):
                 h += -log2(p2)
                 w += 1
 
-        print('Entropy of {} in {}:\t{}'.format(test_file, model_file, str(h / w)))
+        return (h / w)
