@@ -4,8 +4,8 @@ from utils.io_utils import open_file, save_object, BEGIN, END
 class ModelTrainer(object):
 
     def __init__(self):
-        self.__ngram_frequency = {}
         self.__context_frequency = {'': 0}
+        self.__syllable_frequency={}
 
     def handle_ngram_frequency(self, bigram, ngram):
         if bigram in self.__ngram_frequency:
@@ -63,3 +63,4 @@ class ModelTrainer(object):
         save_object(model, model_file)
         self.clean_frequencies()
         print('Generated model file: {}\tFrom training data: {}'.format(model_file, training_file))
+    

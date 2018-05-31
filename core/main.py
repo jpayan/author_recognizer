@@ -1,6 +1,6 @@
 import os
+import operator
 import random
-
 from train_model import ModelTrainer
 from test_model import ModelTester
 from utils.io_utils import get_dir_files
@@ -35,21 +35,21 @@ def generate_training_data_from_dataset(dataset_path):
 def main():
     trainer = ModelTrainer()
 
-    # Generate training files
-    generate_training_data_from_dataset("../datasets/Dickens")
-    generate_training_data_from_dataset("../datasets/GRRM")
-    generate_training_data_from_dataset("../datasets/JK Rowling")
-    generate_training_data_from_dataset("../datasets/Mark Twain")
-    generate_training_data_from_dataset("../datasets/Seuss")
-    generate_training_data_from_dataset("../datasets/Shakespeare")
+    # # Generate training files
+    # generate_training_data_from_dataset("../datasets/Dickens")
+    # generate_training_data_from_dataset("../datasets/GRRM")
+    # generate_training_data_from_dataset("../datasets/JK Rowling")
+    # generate_training_data_from_dataset("../datasets/Mark Twain")
+    # generate_training_data_from_dataset("../datasets/Seuss")
+    # generate_training_data_from_dataset("../datasets/Shakespeare")
 
-    # Generate Models
-    trainer.generate_model("../training/Dickens.txt", "../models/Dickens.pkl")
-    trainer.generate_model("../training/GRRM.txt", "../models/GRRM.pkl")
-    trainer.generate_model("../training/JK Rowling.txt", "../models/JK Rowling.pkl")
-    trainer.generate_model("../training/Mark Twain.txt", "../models/Mark Twain.pkl")
-    trainer.generate_model("../training/Seuss.txt", "../models/Seuss.pkl")
-    trainer.generate_model("../training/Shakespeare.txt", "../models/Shakespeare.pkl")
+    # # Generate Models
+    # trainer.generate_model("../training/Dickens.txt", "../models/Dickens.pkl")
+    # trainer.generate_model("../training/GRRM.txt", "../models/GRRM.pkl")
+    # trainer.generate_model("../training/JK Rowling.txt", "../models/JK Rowling.pkl")
+    # trainer.generate_model("../training/Mark Twain.txt", "../models/Mark Twain.pkl")
+    # trainer.generate_model("../training/Seuss.txt", "../models/Seuss.pkl")
+    # trainer.generate_model("../training/Shakespeare.txt", "../models/Shakespeare.pkl")
 
     # Generate Testing Files
     generate_testing_file("../training/Dickens.txt", "../testing/Dickens.txt")
@@ -83,10 +83,18 @@ def main():
     print("\n")
 
     for testing_file in testing_files:
-        print(os.path.basename(testing_file))
+        filename = os.path.basename(testing_file)
+        print(filename)
+        tests = {}
         for model in models:
-            tester.test_model(testing_file, model)
-        print("\n")
+            modelfilename = os.path.basename(model)
+            entropy = tester.test_model(testing_file, model)
+            print(('Entropy of {} in {}:\t{}'.format(filename, modelfilename, entropy)))
+            tests[modelfilename] = entropy
+        bestMatch =min(tests.items(), key=operator.itemgetter(1))[0]
+        print("MOST LIKELY AUTHOR: ",bestMatch)
+        print("\n\n")
+
 
 if __name__ == "__main__":
     main()
